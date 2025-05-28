@@ -8,7 +8,7 @@ install_requires = [
 ]
 
 
-setup(name="CSLstage",
+setup(name="ContolMotors",
 version="0.0.1",
 description="Control motors via Arduino-Python serial interface",
 author="Peter Hanappe",

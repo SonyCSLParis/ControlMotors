@@ -29,14 +29,14 @@ import argparse
 
 
 parser = argparse.ArgumentParser(prog = 'Motorized Stage')
-parser.add_argument('--port', default='COM6')
+parser.add_argument('--port', default='COM5')
 args = parser.parse_args()
 
 
 x = 0
 y = 0
 z = 0
-gears = [1, 100, 1]
+gears = [1, 1, 1]
 
 link = Serial(args.port, 115200)
 time.sleep(2.0)

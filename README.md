@@ -51,7 +51,7 @@ An [Arduino code](Oquam/Oquam.ino) is provided to control the motors. An extra l
 
 ```python
 from serial import Serial
-from CSLstage import ControlStage
+from ControlMotors import ControlStage
 
 arduino_port = "COM6"
 
@@ -59,7 +59,7 @@ stage = ControlStage(arduino_port, [1,1,1]) #gearbox ratio of X, Y and Z axis
 stage.handle_enable(1)
 stage.move_dx(10)
 stage.handle_enable(0)
-stage.reset() 
+stage.close() 
 ```
 
 
@@ -86,15 +86,15 @@ Open it with Arduino IDE software by double clicking on the file **Oquam.ino** a
 To make the interaction user-friendly, we developed a code that sends instructions to the Arduino through the Serial port. It requires Python. If you already use Python for other projects, you will want to keep this code isolated from your current install. This is possible with a virtual environment. Open Anaconda Prompt and navigate to the repository
 
 ```
-cd CSL-stage
+cd ControlMotors
 python setup.py develop
 ```
 
 You can launch the interface 
 
 ```
-from CSLstage import ControlStage
-from CSLstage import interface_motors
+from ControlMotors import ControlStage
+from ControlMotors import interface_motors
 
 stage = ControlStage("COM6", [1,1,1])
 interface_motors(stage)
