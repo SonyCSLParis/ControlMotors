@@ -1,4 +1,4 @@
-# CSL-stage
+# ControlStage
 __keywords__: Stepper motors, Arduino, Python, Freecad, 3D printing
 
 The goal of this module is to provide simple tools to control a motor to automate manual tasks.
@@ -13,7 +13,7 @@ The use of limit-switches is integrated and is preferred for safety and reproduc
 
 ## Pre-requisites
 
-- Install [CSL-Serial](https://github.com/SonyCSLParis/CSL-Serial) and the [Arduino software](https://www.arduino.cc/en/software)
+- Install [ControlSerial](https://github.com/SonyCSLParis/CSL-Serial) and the [Arduino software](https://www.arduino.cc/en/software)
 - The stepper motor(s) and motor shield(s) are readily available. Refer to the example gallery for ideas. 
 - The code was tested on Windows and Linux
 
@@ -37,7 +37,7 @@ Check-out the example gallery and the description of how to implement them: turn
 |----------|:-------------:|:-------------:|  
 | Arduino | 1.8.13 | [download](https://www.arduino.cc/en/software)
 | Python  | 3.7 |[install](https://github.com/Alienor134/Teaching/blob/master/Python/Installing_Anaconda_creating_environment.md)
-| CSL-serial | 1.0 | [install](XXX)
+| Controlserial | 1.0 | [install](XXX)
 
 
 
@@ -45,7 +45,7 @@ Check-out the example gallery and the description of how to implement them: turn
 ## Codes and files provided :chart_with_upwards_trend:
 
 An [Arduino code](Oquam/Oquam.ino) is provided to control the motors. An extra layer is added in Python to conntrol it easily.
-[CSLstage](CSLstage/CSLstage.py) is a class that can be used the following way:
+[ControlStage](ControlMotors/ControlStage.py) is a class that can be used the following way:
 
 
 
