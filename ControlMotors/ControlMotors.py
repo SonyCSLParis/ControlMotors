@@ -23,7 +23,7 @@
 """
 
 
-from CSLserial import ControlSerial
+from ControlSerial import ControlSerial
 
 import time
 import json

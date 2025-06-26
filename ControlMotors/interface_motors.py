@@ -268,8 +268,8 @@ if __name__ == "__main__":
     interface_motors(stage)
 
     """
-    from CSLstage import ControlStage
-    from CSLstage.interface_motors import interface_motors
+    from ControlStage import ControlStage
+    from ControlStage.interface_motors import interface_motors
 
     x = 0
     y = 0
