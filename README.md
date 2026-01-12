@@ -232,7 +232,7 @@ The repository contains a small test suite to validate the stage control. By def
 
 	Make sure the Arduino with Oquam is connected, the wiring matches Oquam/gshield.h, and the COM ports in the test files reflect your setup.
 
-One useful interactive hardware script is `Tests/hardware/test_Z_motor.py`. When you run it with Python it will:
+One useful interactive hardware script is `Tests/hardware/test_XYZ_motors.py`. When you run it with Python it will:
 
 - Ask for the COM port, which axis/axes (X/Y/Z) to test, gear ratios, step size and homing timeout.
 - Guide you through manual checks with motors disabled (you move the axis by hand) and enabled.

@@ -67,7 +67,7 @@ def interface_motors(stage=None):
 
     # Gear ratio variables (motor-steps per stage-step)
     gear_x_var = tk.StringVar(value="1")
-    gear_y_var = tk.StringVar(value="100")
+    gear_y_var = tk.StringVar(value="1")
     gear_z_var = tk.StringVar(value="1")
 
     # Simple connection status text
