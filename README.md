@@ -87,12 +87,14 @@ stage.close()
 # Instructions
 
 ## Connect the Arduino, the stepper driver and the stepper motor
-Refer to the docmentation of the stepper driver you selected to perform the wiring. For example: [EasyDrive stepper motor driver](https://www.instructables.com/How-to-Interface-Easy-Driver-With-Stepper-Motor-Us/), [XY-motorized stage wiring](https://github.com/SonyCSLParis/Motorized-stage/tree/main/XY-stage), 
+Refer to the documentation of the motor shield/stepper driver you selected to perform the wiring and understand the meaning of the STEP, DIR, ENABLE and limit‑switch pins. For example: [EasyDrive stepper motor driver](https://www.instructables.com/How-to-Interface-Easy-Driver-With-Stepper-Motor-Us/), [XY-motorized stage wiring](https://github.com/SonyCSLParis/Motorized-stage/tree/main/XY-stage), 
 
 ## Arduino and Python codes  
 
 First install Arduino IDE and Python 3.7 (links in the **Software** section)  
 Second download this repository. We will call the address where you save it "path/to/repo" (for example "C://User/Me/MyRepos").
+
+Before uploading the firmware, make sure that your wiring (STEP, DIR, ENABLE pins for each axis and limit switches) matches the pin definitions in [Oquam/gshield.h](Oquam/gshield.h). If you change the wiring, you must update gshield.h accordingly so that the firmware drives the correct pins.
 
 Open the [Oquam/Oquam.ino](Oquam/Oquam.ino) file. 
 Open it with Arduino IDE software by double clicking on the file **Oquam.ino** and upload the codes on the Arduino by clicking on the arrow. If it fails make sure that you are correctly connected to the Arduino: check the card type and the COM port in the "Tools" ("Outils" on the image). 
@@ -101,14 +103,74 @@ Open it with Arduino IDE software by double clicking on the file **Oquam.ino** a
 <img src="images/upload_arduino.png" width=700"/>
 </p>
 
+### Test basic Oquam commands from the Arduino Serial Monitor
+
+You can talk directly to the Oquam firmware from the Arduino IDE Serial Monitor using the RomiSerial protocol. Set the Serial Monitor to **115200 baud** and **"Both NL & CR"**, then type commands of the form:
+
+```text
+#<opcode>[args...]:xxxx
+```
 
 
 
-To make the interaction user-friendly, we developed a code that sends instructions to the Arduino through the Serial port. It requires Python. If you already use Python for other projects, you will want to keep this code isolated from your current install. This is possible with a virtual environment. Open Anaconda Prompt and navigate to the repository
+Some useful examples:
+
+- Identify the controller (should return a string containing "Oquam"):
+
+	```text
+	#?:xxxx
+	```
+
+<p align="center">
+<img src="images/test_arduino_connection.png" width=700"/>
+</p>
+
+
+- Check whether the stage is idle or running:
+
+	```text
+	#I:xxxx
+	```
+
+- Enable / disable the motor drivers (1 = enable, 0 = disable):
+
+	```text
+	#E[1]:xxxx    ; enable motors
+	#E[0]:xxxx    ; disable motors
+	```
+
+- Read the current stepper positions (returns `[0,x,y,z]`):
+
+	```text
+	#P:xxxx
+	```
+
+- Configure homing order (X, Y, Z axis indices: 0,1,2; use -1 to skip an axis) and start homing:
+
+	```text
+	#h[0,-1,-1]:xxxx   ; home X only
+	#H:xxxx            ; start homing sequence
+	```
+
+- Queue a relative move with duration `dt` and displacements `dx,dy,dz` in motor steps:
+
+	```text
+	#M[2000,1000,0,0]:xxxx   ; move X by +1000 steps over dt=2000
+	```
+
+If a command is accepted you will see a response starting with `#0,` (OK). Errors are returned with non‑zero codes and a short message.
+
+
+
+
+
+To make the interaction user-friendly, we developed a code that sends instructions to the Arduino through the Serial port. It requires Python. If you already use Python for other projects, you will want to keep this code isolated from your current install. This is possible with a virtual environment. Open Anaconda Prompt and navigate to the repository.
+
+### Option 1 – Run the Python package
 
 ```
 cd ControlMotors
-python setup.py develop
+pip install -e .
 ```
 
 You can launch the interface 
@@ -120,20 +182,66 @@ from ControlMotors import interface_motors
 stage = ControlStage("COM6", [1,1,1])
 interface_motors(stage)
 ```
-Press the buttons to move by predefined values, or enter manually a value and press the "move" button. The values correspond to motor steps.
+Press the buttons to move by predefined values, or enter manually a value and press the "move" button. The values correspond to logical stage steps, which are converted to motor steps internally using the gear ratios you provide.
 
 
 <p align="center">
 <img src="images/2023-04-27-17-33-56.png" width=400"/>
 </p>
 
+### Option 2 – Use a standalone executable (Windows)
+
+If you do not want to install Python, you can use a pre‑built Windows executable of the Tk interface.
+
+**Pre‑requisites:**
+- Arduino flashed with the Oquam firmware from [Oquam/Oquam.ino](Oquam/Oquam.ino).
+- The ports described in [Oquam/gshield.h](Oquam/gshield.h) match the wiring of the motor shield and the Arduino.
+- The Arduino is connected and appears on a COM port (e.g. COM6).
+- The correct gear ratios for X, Y, Z are known.
+
+
+**Download the executable:**
+
+- Go to the ControlMotors GitHub Releases page.
+- Download the latest `interface_motors.exe`.
+
+
+If the automated port connection fails, check that the correct firmware is flashed on the Arduino, that the COM port is correct, and that no other program (e.g. Arduino IDE serial monitor) is using the same port. You can also test manually from the Serial monitor of Arduino IDE that sending 
+
 
 Note: You will have to determine the backlash of each of your motors: the number of steps you have to turn before the platform moves when you change directions. You will find 4 backlash values, one per direction per motor. We found backlash values between 7 and 12 steps. 
 
 
+## Hardware tests
 
-## Examples"
+The repository contains a small test suite to validate the stage control. By default only unit tests (no hardware) are run; hardware tests have to be started explicitly.
 
+- To run unit tests only (safe on any machine):
+
+	```bash
+	cd ControlMotors
+	python run_tests.py
+	```
+
+- To also run hardware tests (will move the stage):
+
+	```bash
+	cd ControlMotors
+	python run_tests.py --with-hardware
+	```
+
+	Make sure the Arduino with Oquam is connected, the wiring matches Oquam/gshield.h, and the COM ports in the test files reflect your setup.
+
+One useful interactive hardware script is `Tests/hardware/test_Z_motor.py`. When you run it with Python it will:
+
+- Ask for the COM port, which axis/axes (X/Y/Z) to test, gear ratios, step size and homing timeout.
+- Guide you through manual checks with motors disabled (you move the axis by hand) and enabled.
+- Optionally perform programmed moves and homing at the end, while you visually confirm that the stage behaves as expected.
+
+Always ensure the mechanics are safe to move before running hardware tests.
+
+
+## Examples
 ### Photos
 
 <img src="https://user-images.githubusercontent.com/20478886/234916331-f735a618-023f-4e14-959b-d6b5563ef728.jpg" width="40%">
