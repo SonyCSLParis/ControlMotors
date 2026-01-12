@@ -49,6 +49,8 @@ jobs:
     runs-on: windows-latest
     needs: tests
     if: github.ref_type == 'tag'
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -75,3 +77,14 @@ jobs:
         with:
           name: interface_motors-exe
           path: dist/interface_motors.exe
+
+      - name: Create draft GitHub Release with executable
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          draft: true
+          tag_name: ${{ github.ref_name }}
+          name: ControlMotors ${{ github.ref_name }}
+          files: |
+            dist/interface_motors.exe
