@@ -1,4 +1,25 @@
 # ControlStage
+
+[![Python Version](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](LICENSE)
+[![DOI](https://img.shields.io/badge/DOI-pending%20Zenodo-orange.svg)](https://zenodo.org)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/Alienor134/UC2_Fluorescence_microscope)
+[![Arduino Compatible](https://img.shields.io/badge/Arduino-Compatible-00979D?logo=Arduino&logoColor=white)](https://www.arduino.cc/)
+
+---
+
+## Module Information
+
+**Intended Audience**: Researchers, engineers, and makers working on laboratory automation, microscopy, robotics, or hardware-software interfacing. This module is designed for users who need robust serial communication between Python and Arduino for instrument control, data acquisition, or interactive hardware systems.
+
+**Related Modules**:
+- [ControlCamera](../ControlCamera/) - Camera acquisition interface
+- [ControlLight](../ControlLight/) - LED and laser control
+- [ControlSerial](../ControlSerial/) - Python serial interface
+- [Main Project Documentation](https://alienor134.github.io/UC2_Fluorescence_microscope/docs/) - Complete microscope setup
+
+---
+
 __keywords__: Stepper motors, Arduino, Python, Freecad, 3D printing
 
 The goal of this module is to provide simple tools to control a motor to automate manual tasks.
