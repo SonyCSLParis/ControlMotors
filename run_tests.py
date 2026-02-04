@@ -20,6 +20,8 @@ import argparse
 import sys
 from pathlib import Path
 import unittest
+import os
+import importlib
 
 ROOT = Path(__file__).resolve().parent
 
@@ -46,6 +48,33 @@ def sanity_import_check() -> int:
     return 0
 
 
+def _filtered_suite(suite: unittest.TestSuite, skip_names: set[str]) -> unittest.TestSuite:
+    """Return a copy of the suite without tests whose id contains any name in skip_names.
+
+    The unittest discovery builds nested suites; we rebuild a filtered tree.
+    """
+
+    filtered = unittest.TestSuite()
+    for test in suite:
+        if isinstance(test, unittest.TestSuite):
+            filtered.addTest(_filtered_suite(test, skip_names))
+        else:
+            test_id = test.id()
+            if not any(name in test_id for name in skip_names):
+                filtered.addTest(test)
+    return filtered
+
+
+def _count_tests(suite: unittest.TestSuite) -> int:
+    count = 0
+    for test in suite:
+        if isinstance(test, unittest.TestSuite):
+            count += _count_tests(test)
+        else:
+            count += 1
+    return count
+
+
 def run_unittest_discover(start_dir: Path, label: str) -> int:
     """Discover and run unittest tests under the given directory.
 
@@ -59,6 +88,20 @@ def run_unittest_discover(start_dir: Path, label: str) -> int:
     print(f"\n[ControlMotors tests] Running {label} tests in {start_dir}...")
     loader = unittest.TestLoader()
     suite = loader.discover(str(start_dir), pattern="test_*.py")
+
+    discovered = _count_tests(suite)
+
+    # Allow skipping specific tests via env var CM_SKIP_TESTS (comma-separated substrings)
+    skip_env = os.getenv("CM_SKIP_TESTS", "")
+    skip_names = {name.strip() for name in skip_env.split(",") if name.strip()}
+
+    if skip_names:
+        suite = _filtered_suite(suite, skip_names)
+        selected = _count_tests(suite)
+        skipped = discovered - selected
+        print(f"[ControlMotors tests] Discovered {discovered} tests; skipped {skipped}; running {selected}.")
+    else:
+        print(f"[ControlMotors tests] Discovered {discovered} tests; running all.")
     runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(suite)
     return 0 if result.wasSuccessful() else 1
