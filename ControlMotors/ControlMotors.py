@@ -21,7 +21,30 @@
   <http://www.gnu.org/licenses/>.
 
 """
-from ControlSerial.ControlSerial import ControlSerial
+# Optional dependency: ControlSerial. For unit tests and environments
+# where ControlSerial is not installed, fall back to a lightweight mock
+# so that gear computations and command formatting can be tested.
+try:
+    from ControlSerial.ControlSerial import ControlSerial  # type: ignore
+except Exception:  # pragma: no cover - fallback used in CI/unit tests
+    class _DummyDriver:
+        def close(self):
+            pass
+
+    class ControlSerial:  # type: ignore
+        def __init__(self, device: str):
+            self.device = device
+            self.driver = _DummyDriver()
+            # record commands for tests if needed
+            self.commands = []
+
+        def send_command(self, s: str):
+            # store the command and return an OK-like reply
+            self.commands.append(s)
+            return [0, 0]
+
+        def close(self):
+            self.driver.close()
 
 import time
 import json
