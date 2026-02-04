@@ -1,4 +1,4 @@
-# ControlStage
+# ControlMotors
 
 [![Python Version](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](LICENSE)
@@ -10,13 +10,7 @@
 
 ## Module Information
 
-**Intended Audience**: Researchers, engineers, and makers working on laboratory automation, microscopy, robotics, or hardware-software interfacing. This module is designed for users who need robust serial communication between Python and Arduino for instrument control, data acquisition, or interactive hardware systems.
-
-**Related Modules**:
-- [ControlCamera](../ControlCamera/) - Camera acquisition interface
-- [ControlLight](../ControlLight/) - LED and laser control
-- [ControlSerial](../ControlSerial/) - Python serial interface
-- [Main Project Documentation](https://alienor134.github.io/UC2_Fluorescence_microscope/docs/) - Complete microscope setup
+**Intended Audience**: Users who want to motorize and automate stages or actuators with stepper motors via Arduino and Python. Suitable for microscopy and robotics workflows requiring homing, limit‑switch safety, backlash compensation, and scripted or GUI control of X/Y/Z axes.
 
 ---
 
@@ -258,5 +252,81 @@ https://github.com/openUC2/UC2-Motorized-XY-Table
 
 ## License
 
-This project is licensed under the [GNU General Public License v3.0](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3))
+This project firmware (Oquam) and software is licensed under the [GNU General Public License v3.0](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3))
+
+---
+
+## Version Control and Attribution
+
+This project follows **Open Source Hardware Association (OSHWA)** guidelines for version control and attribution.
+
+### Version Control Practice
+
+- **Repository**: Git-based version control with full commit history
+- **Submodule Structure**: Part of the UC2 Fluorescence Microscope parent repository
+- **Versioning**: Semantic versioning (MAJOR.MINOR.PATCH)
+- **Releases**: Tagged releases with automated testing via GitHub Actions
+
+### Attribution Requirements
+
+When using or modifying this software:
+
+1. **Credit the original authors**: Sony Computer Science Laboratories Paris (CSL Paris) and contributors
+2. **Maintain license notices**: Keep GPL-3.0 headers in source files
+3. **Document modifications**: Clearly state any changes made
+4. **Share derivatives**: Derivatives must be released under GPL-3.0 or compatible license
+
+### Contributing
+
+Contributions are tracked through:
+- Git commit history (automatic attribution)
+- Pull requests on GitHub
+- Contributor acknowledgments in release notes
+
+Guidelines:
+- Follow existing code style and add docstrings/comments for public APIs
+- Update README/docs when behavior or interfaces change
+- Include minimal tests or usage examples for new features
+
+---
+
+## License and Legal Information
+
+### Software License
+
+This software is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
+
+Full license text: [LICENSE](LICENSE)
+
+### Firmware License
+
+The Arduino firmware (Oquam) used by this module is licensed under GPL-3.0.
+
+### Related Licenses
+
+- **Parent Project** (UC2 Fluorescence Microscope): Hardware under CERN-OHL-S-2.0, Software under GPL-3.0
+- **Documentation**: CC BY-SA 4.0
+
+---
+
+## 🔗 Cross-References and Navigation
+
+### Within UC2 Fluorescence Microscope Project
+
+- **Main Repository**: [UC2_Fluorescence_microscope](https://github.com/Alienor134/UC2_Fluorescence_microscope)
+- **Documentation Home**: https://alienor134.github.io/UC2_Fluorescence_microscope/docs/
+- **Build Instructions**: https://alienor134.github.io/UC2_Fluorescence_microscope/docs/build
+- **Bill of Materials**: https://alienor134.github.io/UC2_Fluorescence_microscope/docs/bill_of_materials
+- **Automation Guide**: https://alienor134.github.io/UC2_Fluorescence_microscope/docs/automate
+- **Examples**: https://alienor134.github.io/UC2_Fluorescence_microscope/docs/example
+
+### Related Control Modules
+
+| Module | Purpose | Documentation |
+|--------|---------|---------------|
+| [ControlSerial](../ControlSerial/) | Arduino-Python communication | [README](../ControlSerial/README.md) |
+| [ControlCamera](../ControlCamera/) | Camera acquisition and control | [README](../ControlCamera/README.md) |
+| [ControlLight](../ControlLight/) | Laser and LED control | [README](../ControlLight/README.md) |
+| **ControlMotors** | XYZ stage and motor control | [README](README.md) (this file) |
+
 
