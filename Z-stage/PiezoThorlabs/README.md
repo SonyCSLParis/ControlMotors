@@ -16,4 +16,4 @@ The part we designed has 55 teeth and can be found [here](https://github.com/Son
 
 The design requires to adjust the position of the motor pulley to keep the belt orthogonal to the drive rotation, and to firmly attach the stepper motor to the optcal bed.   
 
-The Nema motor is controlled by CSL-stage code, according to the descripition here: https://github.com/SonyCSLParis/Motorized-stage.   
+The Nema motor is controlled by ControlMotors code, according to the descripition here: https://github.com/SonyCSLParis/ControlMotors.   
