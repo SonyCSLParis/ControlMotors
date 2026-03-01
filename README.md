@@ -61,7 +61,7 @@ Check-out the example gallery and the description of how to implement them: turn
 ## Codes and files provided :chart_with_upwards_trend:
 
 An [Arduino code](Oquam/Oquam.ino) is provided to control the motors. An extra layer is added in Python to conntrol it easily.
-[ControlStage](ControlMotors/ControlStage.py) is a class that can be used the following way:
+[ControlStage](ControlMotors/ControlMotors.py) is a class that can be used the following way:
 
 
 
